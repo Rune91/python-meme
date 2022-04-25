@@ -1,7 +1,9 @@
 import requests
 import re
 import json
-import PIL
+import PIL.Image
+import PIL.ImageFont
+import PIL.ImageDraw
 from io import BytesIO
 import os.path
 
@@ -122,7 +124,7 @@ class MemeCreator:
         """returns the font size needed to draw this text on the image"""
         letters = len(text)
         while True:
-            letter_width = (self.WIDTH-2*self.X_MARGIN) / letters
+            letter_width = (self.WIDTH-2*self.X_MARGIN) / (letters+2)
             if letter_width < self.WIDTH / 15:
                 letters /= 2
             else:
@@ -141,7 +143,7 @@ class MemeCreator:
 
 if __name__ == '__main__':
     meme_creator = MemeCreator()
-    image_keywords = "chemistry lab"
+    image_keywords = "chemistry"
     top_text = "Can you tell me the symbol for sodium?"
     bottom_text = "Na"
     meme = meme_creator.make(image_keywords, top_text, bottom_text)
