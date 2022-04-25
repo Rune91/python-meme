@@ -25,3 +25,12 @@ meme.save("my_meme.png", "PNG")
 3. Save your code file to the same folder and run. The following image is produced:
 
 ![Sample meme](my_meme.png)
+
+4. Usage parameters (such as watermark, text color, image size, etc) may be set manually:
+
+```
+meme_creator.WIDTH = 600
+meme_creator.HEIGHT = 800
+meme_creator.font_color = (255, 0, 0)
+meme_creator.watermark = "I would like to thank myself for believing in me"
+```

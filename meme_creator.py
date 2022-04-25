@@ -13,13 +13,14 @@ class MemeCreator:
         self.WIDTH = 400
         self.HEIGHT = 300
         self.X_MARGIN = int(self.WIDTH / 30)
-        self.Y_MARGIN = int(self.HEIGHT / 20)
+        self.Y_MARGIN = int(self.HEIGHT / 15)
         self.HEIGHT_COEFF = 1.1
         self.font_color = (255,255,255)
         self.outline_color = (0,0,0)
         self.font_name = "unicode-impact.ttf"
         if not os.path.exists(self.font_name):
             raise Exception(f"font file {self.font_name} missing from directory")
+        self.watermark = "github.com/Rune91/python-meme"
 
     def search_image(self, keyword):
         """returns a PIL image found by searching duckduckgo for keywords"""
@@ -81,13 +82,25 @@ class MemeCreator:
             else:
                 return self.get_image_url("question mark")
             
-    def draw_text(self, text, img, top):
+    def draw_watermark(self, image):
+        """Adds the watermark text to bottom left. Returns updated image"""
+        font = PIL.ImageFont.truetype(self.font_name, 10)
+        draw = PIL.ImageDraw.Draw(image)
+        draw.text((2, self.HEIGHT-15), self.watermark,
+                  font=font,
+                  fill=self.font_color,
+                  stroke_fill=self.outline_color,
+                  stroke_width=1)
+        
+        return image
+            
+    def draw_text(self, text, image, top):
         """draws text on the image. top (True/False) decides top or bottom.
         returns the new image"""
-        if not text: return img
+        if not text: return image
         font_size = self.get_font_size(text)
         font = PIL.ImageFont.truetype(self.font_name, font_size)
-        draw = PIL.ImageDraw.Draw(img)
+        draw = PIL.ImageDraw.Draw(image)
         outline_width = int(font_size / 10)
         lines = []
         words = text.split(" ")
@@ -118,7 +131,7 @@ class MemeCreator:
                           stroke_fill=self.outline_color,
                           stroke_width=outline_width)
             y += int(dy*h*self.HEIGHT_COEFF)
-        return img
+        return image
 
     def get_font_size(self, text):
         """returns the font size needed to draw this text on the image"""
@@ -138,6 +151,7 @@ class MemeCreator:
         image = image.resize((self.WIDTH, self.HEIGHT), PIL.Image.LANCZOS)
         image = self.draw_text(text_top, image, True)
         image = self.draw_text(text_bottom, image, False)
+        image = self.draw_watermark(image)
         return image
 
 
