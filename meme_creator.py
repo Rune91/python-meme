@@ -84,6 +84,7 @@ class MemeCreator:
             
     def draw_watermark(self, image):
         """Adds the watermark text to bottom left. Returns updated image"""
+        if not self.watermark: return image
         font = PIL.ImageFont.truetype(self.font_name, 10)
         draw = PIL.ImageDraw.Draw(image)
         draw.text((2, self.HEIGHT-15), self.watermark,
