@@ -141,8 +141,9 @@ class MemeCreator:
 
 if __name__ == '__main__':
     meme_creator = MemeCreator()
-    meme = meme_creator.make("fish",
-                             "Can you tell me the symbol for sodium hydroxide?",
-                             "NaH")
+    image_keywords = "chemistry lab"
+    top_text = "Can you tell me the symbol for sodium?"
+    bottom_text = "Na"
+    meme = meme_creator.make(image_keywords, top_text, bottom_text)
     meme.show()
-    meme.save("meme.png", "PNG")
+    meme.save("my_meme.png", "PNG")
